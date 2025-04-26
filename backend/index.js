@@ -3,7 +3,9 @@ const cors = require('cors');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 
+//App setup
 const app = express();
+
 app.use(cors());
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
@@ -27,6 +29,10 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log('Usuário desconectado:', socket.id);
+    });
+    socket.on('typing', (message) => {
+        // broadcast message to all except own user
+        socket.broadcast.emit('typing', message)
     });
 });
 
