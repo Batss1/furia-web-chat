@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 
 interface MessageInputProps {
-    onSend: (message: string) => void;
+    onSend: (text: string) => void;
 }
 
 export default function MessageInput({ onSend }: MessageInputProps) {
