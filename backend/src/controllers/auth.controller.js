@@ -1,9 +1,9 @@
 export const signup = (req,res) => {
-    res.send("Rota de signup")
+    res.send("Rota de signup");
 }
 export const login = (req,res) => {
-    res.send("Rota de login")
+    res.send("Rota de login");
 }
 export const logout = (req,res) => {
-    res.send("Rota de logout")
+    res.send("Rota de logout");
 }
