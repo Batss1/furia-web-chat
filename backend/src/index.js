@@ -1,14 +1,23 @@
 import express from "express";
+import dotenv from "dotenv";
+
+import {connectDB} from "./lib/database.js";
 
 import authRoutes from "./routes/auth.route.js";
 
+dotenv.config();
 const app = express();
+
+const PORT = process.env.PORT;
+
+app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 
 
-app.listen(5001, () => {
-    console.log("Servidor está rodando na porta 5001");
+app.listen(PORT, () => {
+    console.log("Servidor está rodando na porta:" + PORT);
+    connectDB();
 })
 
 
