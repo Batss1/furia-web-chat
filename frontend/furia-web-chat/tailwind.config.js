@@ -6,11 +6,13 @@ export default {
     theme: {
       extend: {
         color: {
-          'furia-red': '#FF4600',
-          'furia-black': '#000000',
+          'furia': '#FF6F61',
+          'furia-light': '#FFB3A0',
+          'furia-dark': '#C94C3D',
+          'furia-darkest': '#7A2A2A',
         },
         fontFamily: {
-          'furia': ['"Exo 2"', 'sans-serif'],
+          'furia': ['Furia', 'sans-serif'],
       },
     },
     plugins: [],
