@@ -10,12 +10,19 @@ import ProfilePage from "./pages/ProfilePage"
 import React from 'react'
 
 import { Routes, Route } from 'react-router-dom'
-import { useAuthStore } from "./store/authStore"
+import { useAuthStore } from "./store/useAuthStore"
 
 
 
 const App = () => {
-  const { authUser } = useAuthStore() ;
+  const { authUser, checkAuth } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth])
+
+  console.log({ authUser });
+
   return (
     <div>
 
