@@ -46,8 +46,33 @@ export const signup = async (req,res) => {
         res.status(500).json({ message: "Erro interno do servidor" })
     }
 };
-export const login = (req,res) => {
-    res.send("Rota de login");
+export const login = async (req,res) => {
+    const { email, password } = req.body;
+    try {
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({ message: "Email ou senha inválidos" });
+        }
+        
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if (!isPasswordCorrect) {
+            return res.status(400).json({ message: "Senha inválida"});
+        }
+
+        generateToken(user._id, res);
+        res.status(200).json({
+            _id: user._id,
+            fullName: user.fullName,
+            email: user.email,
+            profilePic: user.profilePic,
+        });
+    } catch (error) {
+        console.log("Erro no controle de Login", error.message);
+        res.status(500).json({ message: "Erro interno do servidor"})
+    }
+
 };
 export const logout = (req,res) => {
     res.send("Rota de logout");
