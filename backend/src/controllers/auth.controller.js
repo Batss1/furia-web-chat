@@ -76,11 +76,15 @@ export const login = async (req,res) => {
 };
 export const logout = (req,res) => {
     try {
-        res.cookie("jwt", "", { maxAge: 0 })
-        res.status(200).json({ message: "Logout realizado com sucesso"})
+        res.cookie("jwt", "", { maxAge: 0 });
+        res.status(200).json({ message: "Logout realizado com sucesso"});
     } catch (error) {
         console.log("Erro no controle de Logout", error.message);
-        res.status(500).json({ message: "Erro interno do servidor"})
+        res.status(500).json({ message: "Erro interno do servidor"});
     }
 
 };
+
+export const updateProfile = async (req, res) => {
+    
+}
