@@ -22,13 +22,6 @@ const Navbar = () => {
 
         {/* Navegação */}
         <nav aria-label="Main navigation" className="flex items-center space-x-4">
-          <Link
-            to="/settings"
-            className="text-white text-sm font-medium hover:text-yellow-500 transition-colors flex items-center space-x-1"
-          >
-            <Settings className="w-4 h-4" />
-            <span className="hidden sm:inline">Settings</span>
-          </Link>
 
           {authUser && (
             <>  

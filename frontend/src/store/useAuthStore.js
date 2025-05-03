@@ -1,6 +1,9 @@
 import { create } from 'zustand';
 import { axiosInstance } from '../lib/axios.js';
 import toast from 'react-hot-toast';
+import { io } from "socket.io-client";
+
+const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "/";
 
 export const useAuthStore = create((set, get) => ({
     authUser: null,
@@ -9,13 +12,14 @@ export const useAuthStore = create((set, get) => ({
     isUpdatingProfile: false,
     isCheckingAuth: true,
     onlineUsers: [],
+    socket: null,
 
     
     checkAuth: async () => {
         try {
             const res = await axiosInstance.get('/auth/check');
-
             set({ authUser: res.data });
+            get().connectSocket()
         } catch (error) {
             console.log("Erro ao verificar autenticação:", error);
             set({ authUser: null });
@@ -29,8 +33,9 @@ export const useAuthStore = create((set, get) => ({
         set ({ isSigningUp: true });
         try {
             const response = await axiosInstance.post('/auth/signup', data);
-            toast.sucess("Cadastro realizado com sucesso!");
             set({ authUser: response.data }); 
+            toast.sucess("Cadastro realizado com sucesso!");
+            get().connectSocket();
         } catch (error) {
             toast.error(error.response.data.message);
             console.log("Erro ao cadastrar:", error);
@@ -78,5 +83,26 @@ export const useAuthStore = create((set, get) => ({
             set({ isUpdatingProfile: false });
         }
       },
+
+    connectSocket: () => {
+        const { authUser } = get();
+        if (!authUser || get().socket?.connected) return;
+    
+        const socket = io(BASE_URL, {
+          query: {
+            userId: authUser._id,
+          },
+        });
+        socket.connect();
+    
+        set({ socket: socket });
+    
+        socket.on("getOnlineUsers", (userIds) => {
+          set({ onlineUsers: userIds });
+      });
+    },
+    disconnectSocket: () => {
+        if (get().socket?.connected) get().socket.disconnect();
+    },
 
 }));

@@ -8,11 +8,13 @@ import { connectDB } from "./lib/database.js";
 
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
+import { app, server } from ".lib/socket.js"
+
 
 dotenv.config();
 const PORT = process.env.PORT;
 
-const app = express();
+ 
 
 app.use(express.json());
 app.use(cookieParser());
@@ -26,7 +28,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log("Servidor está rodando na porta:" + PORT);
     connectDB();
 })

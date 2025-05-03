@@ -32,7 +32,7 @@ const ChatContainer = () => {
   ]);
 
   useEffect(() => {
-    if (messageEndRef.current) {
+    if (messageEndRef.current && messages) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
@@ -67,6 +67,7 @@ const ChatContainer = () => {
             <article
               key={message._id}
               className={`flex items-start ${isMine ? "justify-end" : "justify-start"}`}
+              ref={messageEndRef}
             >
               <figure className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-200">
                 <img
