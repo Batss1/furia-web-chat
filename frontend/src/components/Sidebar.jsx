@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
-import SidebarSkeleton from "./skeletons/SidebarSkeleton";
+import SidebarSkeleton from "./SidebarSkeleton";
 import { Users } from "lucide-react";
+
+import ImgPerfil from "../assets/images/Perfil.png"
 
 const Sidebar = () => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
@@ -44,7 +46,7 @@ const Sidebar = () => {
       </header>
 
       {/* Lista de usuários */}
-      <nav aria-label="User contacts" className="overflow-y-auto flex-1 py-3">
+      <nav aria-label="Contatos de usuários" className="overflow-y-auto flex-1 py-3">
         {filteredUsers.map((user) => (
           <button
             key={user._id}
@@ -57,7 +59,7 @@ const Sidebar = () => {
           >
             <div className="relative mx-auto lg:mx-0">
               <img
-                src={user.profilePic || "../assets/images/Perfil.png"}
+                src={user.profilePic || ImgPerfil}
                 alt={user.fullName}
                 className="w-12 h-12 object-cover rounded-full"
               />
@@ -75,7 +77,7 @@ const Sidebar = () => {
         ))}
 
         {filteredUsers.length === 0 && (
-          <p className="text-center text-gray-400 py-4">No online users</p>
+          <p className="text-center text-gray-400 py-4">Nenhum usuário online</p>
         )}
       </nav>
     </aside>
