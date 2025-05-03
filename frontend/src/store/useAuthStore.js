@@ -8,13 +8,13 @@ export const useAuthStore = create((set, get) => ({
     isLoggingIn: false,
     isUpdatingProfile: false,
     isCheckingAuth: true,
-    
+
     
     checkAuth: async () => {
         try {
-            const response = await axiosInstance.get('/auth/check');
+            const res = await axiosInstance.get('/auth/check');
 
-            set({ authUser: response.data });
+            set({ authUser: res.data });
         } catch (error) {
             console.log("Erro ao verificar autenticação:", error);
             set({ authUser: null });
@@ -43,7 +43,7 @@ export const useAuthStore = create((set, get) => ({
         try {
           const res = await axiosInstance.post("/auth/login", data);
           set({ authUser: res.data });
-          toast.success("Logged in successfully");
+          toast.success("Iniciou a sessão com successo");
     
           get().connectSocket();
         } catch (error) {
@@ -61,6 +61,20 @@ export const useAuthStore = create((set, get) => ({
           get().disconnectSocket();
         } catch (error) {
           toast.error(error.response.data.message);
+        }
+      },
+
+    updateProfile: async (data) => {
+        set({ isUpdatingProfile: true });
+        try {
+            const res = await axiosInstance.put("/auth/update-profile", data);
+            set({ authUser: res.data });
+            toast.success("Perfil atualizado com sucesso");
+        } catch (error) {
+            console.log("Erro ao atualizar perfil:", error);
+            toast.error(error.response.data.message);
+        } finally {
+            set({ isUpdatingProfile: false });
         }
       },
 
