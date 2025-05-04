@@ -1,7 +1,7 @@
 import { X } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
-import Profile from "../assets/images/Perfil.png";
+import Avatar from "../assets/images/Perfil.png";
 
 const ChatHeader = () => {
   const { selectedUser, setSelectedUser } = useChatStore();
@@ -16,7 +16,7 @@ const ChatHeader = () => {
       {/* Informações do usuário */}
       <div role="group" aria-label="Informações do contato" className="flex items-center gap-3">
         <figure className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#FFD700]">
-          <img src={selectedUser.profilePic || Profile } alt={`Foto de perfil de ${selectedUser.fullName}`}
+          <img src={selectedUser.profilePic || Avatar } alt={`Foto de perfil de ${selectedUser.fullName}`}
             className="w-full h-full object-cover"/>
         
         </figure>
