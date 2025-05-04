@@ -4,7 +4,7 @@ const SidebarSkeleton = () => {
   const skeletonItems = Array.from({ length: 8 });
 
   return (
-    <aside className="h-full w-20 lg:w-72 border-r border-gray-700 bg-black/10 flex flex-col transition-all duration-200">
+    <aside className="h-full w-20 lg:w-72 border-r border-gray-700 bg-black flex flex-col transition-all duration-200">
       <header className="p-5 border-b border-gray-700">
         <div className="flex items-center gap-2">
           <Users className="w-6 h-6 text-yellow-500" />

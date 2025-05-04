@@ -15,9 +15,7 @@ const Sidebar = () => {
     getUsers();
   }, [getUsers]);
 
-  const filteredUsers = showOnlineOnly
-    ? users.filter((u) => onlineUsers.includes(u._id))
-    : users;
+  const filteredUsers = showOnlineOnly ? users.filter((user) => onlineUsers.includes(user._id)) : users;
 
   if (isUsersLoading) return <SidebarSkeleton />;
 
@@ -27,8 +25,9 @@ const Sidebar = () => {
       <header className="p-5 border-b border-gray-700">
         <div className="flex items-center gap-2">
           <Users className="w-6 h-6 text-yellow-500" />
-          <h2 className="hidden lg:block text-white font-medium">Contatos</h2>
+          <span className="hidden lg:block text-white font-medium">Contatos</span>
         </div>
+
         <div className="mt-3 hidden lg:flex items-center gap-2">
           <label className="flex items-center gap-2 text-sm cursor-pointer">
             <input
@@ -37,6 +36,7 @@ const Sidebar = () => {
               onChange={(e) => setShowOnlineOnly(e.target.checked)}
               className="form-checkbox h-4 w-4 text-yellow-500"
             />
+
             <span className="text-white">Mostrar apenas ativos</span>
           </label>
           <span className="text-xs text-gray-400">
@@ -77,7 +77,7 @@ const Sidebar = () => {
         ))}
 
         {filteredUsers.length === 0 && (
-          <p className="text-center text-gray-400 py-4">Nenhum usuário online</p>
+          <div className="text-center text-gray-400 py-4">Nenhum usuário online</div>
         )}
       </nav>
     </aside>

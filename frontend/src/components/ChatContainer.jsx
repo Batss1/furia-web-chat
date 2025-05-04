@@ -1,12 +1,11 @@
-import { useEffect, useRef } from "react";
 import { useChatStore } from "../store/useChatStore";
-import { useAuthStore } from "../store/useAuthStore";
+import { useEffect, useRef } from "react";
+
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
 import MessageSkeleton from "./MessageSkeleton";
+import { useAuthStore } from "../store/useAuthStore";
 import { formatMessageTime } from "../lib/utils";
-
-import ImgPerfil from "../assets/images/Perfil.png"
 
 const ChatContainer = () => {
   const {
@@ -22,14 +21,11 @@ const ChatContainer = () => {
 
   useEffect(() => {
     getMessages(selectedUser._id);
+
     subscribeToMessages();
+
     return () => unsubscribeFromMessages();
-  }, [
-    selectedUser._id,
-    getMessages,
-    subscribeToMessages,
-    unsubscribeFromMessages,
-  ]);
+  }, [selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
 
   useEffect(() => {
     if (messageEndRef.current && messages) {
@@ -39,85 +35,58 @@ const ChatContainer = () => {
 
   if (isMessagesLoading) {
     return (
-      <section className="flex-1 flex flex-col overflow-auto bg-black/5">
-        <header>
-          <ChatHeader />
-        </header>
+      <div className="flex-1 flex flex-col overflow-auto">
+        <ChatHeader />
         <MessageSkeleton />
-        <footer>
-          <MessageInput />
-        </footer>
-      </section>
+        <MessageInput />
+      </div>
     );
   }
 
   return (
-    <section className="flex-1 flex flex-col overflow-auto">
-      <header>
-        <ChatHeader />
-      </header>
+    <div className="flex-1 flex flex-col overflow-auto">
+      <ChatHeader />
 
-      <section
-        aria-live="polite"
-        className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50"
-      >
-        {messages.map((message) => {
-          const isMine = message.senderId === authUser._id;
-          return (
-            <article
-              key={message._id}
-              className={`flex items-start ${isMine ? "justify-end" : "justify-start"}`}
-              ref={messageEndRef}
-            >
-              <figure className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-200">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {messages.map((message) => (
+          <div
+            key={message._id}
+            className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}
+            ref={messageEndRef}
+          >
+            <div className=" chat-image avatar">
+              <div className="size-10 rounded-full border">
                 <img
                   src={
-                    isMine
-                      ? authUser.profilePic || ImgPerfil
-                      : selectedUser.profilePic || ImgPerfil
+                    message.senderId === authUser._id
+                      ? authUser.profilePic || "/avatar.png"
+                      : selectedUser.profilePic || "/avatar.png"
                   }
-                  alt="Profile"
-                  className="w-full h-full object-cover"
+                  alt="profile pic"
                 />
-              </figure>
-
-              <div
-                className={`flex flex-col ms-2 space-y-1 ${
-                  isMine ? "items-end" : "items-start"
-                }`}
-              >
-                <time className="text-xs text-gray-400">
-                  {formatMessageTime(message.createdAt)}
-                </time>
-
-                <div
-                  className={`max-w-xs px-3 py-2 rounded-2xl ${
-                    isMine
-                      ? "bg-yellow-500/20 text-black"
-                      : "bg-white text-black"
-                  }`}
-                >
-                  {message.image && (
-                    <img
-                      src={message.image}
-                      alt="Attachment"
-                      className="mb-2 rounded-md max-w-xs"
-                    />
-                  )}
-                  {message.text && <p>{message.text}</p>}
-                </div>
               </div>
-            </article>
-          );
-        })}
-        <div ref={messageEndRef} />
-      </section>
+            </div>
+            <div className="chat-header mb-1">
+              <time className="text-xs opacity-50 ml-1">
+                {formatMessageTime(message.createdAt)}
+              </time>
+            </div>
+            <div className="chat-bubble flex flex-col">
+              {message.image && (
+                <img
+                  src={message.image}
+                  alt="Attachment"
+                  className="sm:max-w-[200px] rounded-md mb-2"
+                />
+              )}
+              {message.text && <p>{message.text}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
 
-      <footer className="bg-white p-4">
-        <MessageInput />
-      </footer>
-    </section>
+      <MessageInput />
+    </div>
   );
 };
-
 export default ChatContainer;

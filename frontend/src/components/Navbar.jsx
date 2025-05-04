@@ -11,7 +11,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex justify-between items-center h-16 px-4">
         {/* Logo e título */}
         <Link to="/" className="flex items-center space-x-0.4">
-        {/* miniatura de 36×36px */}
+        {/* miniatura da Logo Furia */}
         <img
           src={FuriaLogo}
           alt="Logo Furia"
@@ -35,7 +35,7 @@ const Navbar = () => {
 
               <button
                 onClick={logout}
-                className="text-white text-sm font-medium hover:text-yellow-500 transition-colors flex items-center space-x-1"
+                className="text-white text-sm font-medium hover:text-yellow-500 cursor-pointer transition-colors flex items-center space-x-1"
               >
                 <LogOut className="w-5 h-5" />
                 <span className="hidden sm:inline">Logout</span>
